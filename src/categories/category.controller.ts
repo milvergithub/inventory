@@ -8,10 +8,9 @@ import {
   Param,
   ParseIntPipe,
 } from '@nestjs/common';
-
-import { CategoryService } from './category.service';
-import { CreateCategoryDto } from './dto/create-category.dto';
-import { UpdateCategoryDto } from './dto/update-category.dto';
+import { CategoryService } from '@/categories/category.service';
+import { CreateCategoryDto } from '@/categories/dto/create-category.dto';
+import { UpdateCategoryDto } from '@/categories/dto/update-category.dto';
 
 @Controller('/api/v1/categories')
 export class CategoryController {

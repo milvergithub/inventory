@@ -7,13 +7,11 @@ import {
   Body,
   Param,
   ParseIntPipe,
-  UseGuards,
   Req,
 } from '@nestjs/common';
-
-import { ProductService } from './product.service';
-import { CreateProductDto } from './dto/create-product.dto';
-import { UpdateProductDto } from './dto/update-product.dto';
+import { ProductService } from '@/products/product.service';
+import { CreateProductDto } from '@/products/dto/create-product.dto';
+import { UpdateProductDto } from '@/products/dto/update-product.dto';
 
 @Controller('/api/v1/products')
 export class ProductController {
