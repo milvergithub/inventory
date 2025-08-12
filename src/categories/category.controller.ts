@@ -7,6 +7,7 @@ import {
   Body,
   Param,
   ParseIntPipe,
+  Query,
 } from '@nestjs/common';
 import { CategoryService } from '@/categories/category.service';
 import { CreateCategoryDto } from '@/categories/dto/create-category.dto';
@@ -17,8 +18,11 @@ export class CategoryController {
   constructor(private readonly categoryService: CategoryService) {}
 
   @Get()
-  findAll() {
-    return this.categoryService.findAll();
+  findAll(@Query('page') page: string, @Query('limit') limit: string) {
+    const pageNumber = parseInt(page) || 1;
+    const limitNumber = parseInt(limit) || 10;
+
+    return this.categoryService.findAllPaginated(pageNumber, limitNumber);
   }
 
   @Get(':id')

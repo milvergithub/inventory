@@ -12,8 +12,21 @@ export class CategoryService {
     private readonly categoryRepository: Repository<Category>,
   ) {}
 
-  async findAll(): Promise<Category[]> {
-    return this.categoryRepository.find({ relations: ['products'] });
+  async findAllPaginated(
+    page: number = 1,
+    limit: number = 10,
+  ): Promise<{ data: Category[]; hasMore: boolean }> {
+    const skip = (page - 1) * limit;
+
+    const [data, total] = await this.categoryRepository.findAndCount({
+      skip,
+      take: limit,
+      order: { createdAt: 'DESC' },
+    });
+
+    const hasMore = total > skip + data.length;
+
+    return { data, hasMore };
   }
 
   async findOne(id: number): Promise<Category> {
