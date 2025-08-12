@@ -1,32 +1,25 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { Repository } from 'typeorm';
+import { Repository, ILike } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Category } from '@/categories/category.entity';
 import { CreateCategoryDto } from '@/categories/dto/create-category.dto';
 import { UpdateCategoryDto } from '@/categories/dto/update-category.dto';
+import { CategoryQueryDto } from '@/categories/dto/categoryRequestDto';
+import { BaseService } from '@/common/base.service';
 
 @Injectable()
-export class CategoryService {
+export class CategoryService extends BaseService<Category> {
   constructor(
     @InjectRepository(Category)
     private readonly categoryRepository: Repository<Category>,
-  ) {}
+  ) {
+    super(categoryRepository);
+  }
 
-  async findAllPaginated(
-    page: number = 1,
-    limit: number = 10,
-  ): Promise<{ data: Category[]; hasMore: boolean }> {
-    const skip = (page - 1) * limit;
+  findAllWithSearch(request: CategoryQueryDto) {
+    const where = request.search ? { name: ILike(`%${request.search}%`) } : {};
 
-    const [data, total] = await this.categoryRepository.findAndCount({
-      skip,
-      take: limit,
-      order: { createdAt: 'DESC' },
-    });
-
-    const hasMore = total > skip + data.length;
-
-    return { data, hasMore };
+    return this.findAllPaginated(request, where);
   }
 
   async findOne(id: number): Promise<Category> {

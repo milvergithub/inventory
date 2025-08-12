@@ -12,17 +12,15 @@ import {
 import { CategoryService } from '@/categories/category.service';
 import { CreateCategoryDto } from '@/categories/dto/create-category.dto';
 import { UpdateCategoryDto } from '@/categories/dto/update-category.dto';
+import { CategoryQueryDto } from '@/categories/dto/categoryRequestDto';
 
 @Controller('/api/v1/categories')
 export class CategoryController {
   constructor(private readonly categoryService: CategoryService) {}
 
   @Get()
-  findAll(@Query('page') page: string, @Query('limit') limit: string) {
-    const pageNumber = parseInt(page) || 1;
-    const limitNumber = parseInt(limit) || 10;
-
-    return this.categoryService.findAllPaginated(pageNumber, limitNumber);
+  findAll(@Query() request: CategoryQueryDto) {
+    return this.categoryService.findAllWithSearch(request);
   }
 
   @Get(':id')

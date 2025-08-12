@@ -30,7 +30,7 @@ export class ProductController {
   @Post()
   create(@Body() createProductDto: CreateProductDto, @Req() req) {
     // Asumiendo que tienes un sistema auth que inyecta usuario en req.user
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment,@typescript-eslint/no-unsafe-member-access
     const userId = req.user?.id;
     return this.productService.create(createProductDto, userId);
   }
