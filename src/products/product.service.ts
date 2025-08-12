@@ -1,19 +1,38 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { Repository } from 'typeorm';
+import { ILike, Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Product } from '@/products/product.entity';
 import { CreateProductDto } from '@/products/dto/create-product.dto';
 import { UpdateProductDto } from '@/products/dto/update-product.dto';
+import { ProductQueryDto } from '@/products/dto/productQueryDto';
+import { BaseService } from '@/common/base.service';
 
 @Injectable()
-export class ProductService {
+export class ProductService extends BaseService<Product> {
   constructor(
     @InjectRepository(Product)
     private readonly productRepository: Repository<Product>,
-  ) {}
+  ) {
+    super(productRepository);
+  }
 
-  async findAll(): Promise<Product[]> {
-    return this.productRepository.find({ relations: ['category'] });
+  async findAll(request: ProductQueryDto) {
+    //const where = request.search ? { name: ILike(`%${request.search}%`) } : {};
+    const where = {};
+    if (request.name) {
+      where['name'] = ILike(`%${request.name}%`);
+    }
+    if (request.sku) {
+      where['sku'] = ILike(`%${request.sku}%`);
+    }
+    if (request.code) {
+      where['code'] = ILike(`%${request.code}%`);
+    }
+    if (request.categoryId) {
+      where['categoryId'] = request.categoryId;
+    }
+
+    return this.findAllPaginated(request, where);
   }
 
   async findOne(id: number): Promise<Product> {

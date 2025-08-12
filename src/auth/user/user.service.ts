@@ -31,7 +31,6 @@ export class UserService {
     createUserDto: CreateUserDto,
     creatorId?: number,
   ): Promise<User> {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment,@typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-member-access
     const hashedPassword: string = await bcrypt.hash(
       createUserDto.password,
       10,
@@ -54,7 +53,6 @@ export class UserService {
     const user = await this.findOne(id);
 
     if (updateUserDto.password) {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment,@typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-member-access
       user.passwordHash = await bcrypt.hash(updateUserDto.password, 10);
     }
     if (updateUserDto.username) user.username = updateUserDto.username;

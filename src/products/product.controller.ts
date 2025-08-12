@@ -8,18 +8,20 @@ import {
   Param,
   ParseIntPipe,
   Req,
+  Query,
 } from '@nestjs/common';
 import { ProductService } from '@/products/product.service';
 import { CreateProductDto } from '@/products/dto/create-product.dto';
 import { UpdateProductDto } from '@/products/dto/update-product.dto';
+import { ProductQueryDto } from '@/products/dto/productQueryDto';
 
 @Controller('/api/v1/products')
 export class ProductController {
   constructor(private readonly productService: ProductService) {}
 
   @Get()
-  findAll() {
-    return this.productService.findAll();
+  findAll(@Query() request: ProductQueryDto) {
+    return this.productService.findAll(request);
   }
 
   @Get(':id')
@@ -41,7 +43,7 @@ export class ProductController {
     @Body() updateProductDto: UpdateProductDto,
     @Req() req,
   ) {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment,@typescript-eslint/no-unsafe-member-access
     const userId = req.user?.id;
     return this.productService.update(id, updateProductDto, userId);
   }
