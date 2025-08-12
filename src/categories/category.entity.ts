@@ -17,6 +17,9 @@ export class Category {
   name: string;
 
   @Column({ type: 'text', nullable: true })
+  color?: string;
+
+  @Column({ type: 'text', nullable: true })
   description?: string;
 
   @OneToMany(() => Product, (product) => product.category)
