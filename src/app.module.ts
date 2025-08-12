@@ -3,9 +3,11 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { CategoryModule } from '@/categories/category.module';
 import { ProductModule } from '@/products/product.module';
-import { UserModule } from '@/auth/user/user.module';
+import { AuthModule } from '@/auth/auth.module';
 import { AppController } from '@/app.controller';
 import { AppService } from '@/app.service';
+import { PartnerModule } from '@/partner/partner.module';
+import { WarehouseModule } from '@/warehouse/warehouse.module';
 
 @Module({
   imports: [
@@ -29,7 +31,9 @@ import { AppService } from '@/app.service';
     }),
     ProductModule,
     CategoryModule,
-    UserModule,
+    AuthModule,
+    PartnerModule,
+    WarehouseModule,
   ],
   controllers: [AppController],
   providers: [AppService],
