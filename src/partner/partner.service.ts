@@ -20,7 +20,11 @@ export class PartnerService extends BaseService<Partner> {
   async findAll(request: PartnerQueryDto) {
     const where = {};
 
-    return this.findAllPaginated({ paginate: request, where });
+    return this.findAllPaginated({
+      paginate: request,
+      where,
+      relations: ['user'],
+    });
   }
 
   async findOne(id: number): Promise<Partner> {
