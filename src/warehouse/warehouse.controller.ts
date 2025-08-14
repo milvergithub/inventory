@@ -12,7 +12,7 @@ import { WarehouseService } from '@/warehouse/warehouse.service';
 import { CreateWarehouseDto } from '@/warehouse/dto/create-warehouse.dto';
 import { UpdateWarehouseDto } from '@/warehouse/dto/update-warehouse.dto';
 
-@Controller('warehouses')
+@Controller('api/v1/warehouses')
 export class WarehouseController {
   constructor(private readonly warehouseService: WarehouseService) {}
 

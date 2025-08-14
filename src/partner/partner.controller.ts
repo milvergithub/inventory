@@ -12,7 +12,7 @@ import { PartnerService } from '@/partner/partner.service';
 import { CreatePartnerDto } from '@/partner/dto/create-partner.dto';
 import { UpdatePartnerDto } from '@/partner/dto/update-partner.dto';
 
-@Controller('partners')
+@Controller('api/v1/partners')
 export class PartnerController {
   constructor(private readonly partnerService: PartnerService) {}
 
