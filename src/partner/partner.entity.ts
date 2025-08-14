@@ -23,17 +23,8 @@ export class Partner {
   @Column({ name: 'user_id', unique: true })
   userId: number;
 
-  @Column({ length: 200 })
-  name: string;
-
-  @Column({ length: 150, nullable: true })
-  email?: string;
-
-  @Column({ length: 50, nullable: true })
-  phone?: string;
-
   @Column({ type: 'text', nullable: true })
-  address?: string;
+  description?: string;
 
   @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;
