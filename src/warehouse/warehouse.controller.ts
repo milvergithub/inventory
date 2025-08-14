@@ -7,18 +7,20 @@ import {
   Param,
   Body,
   ParseIntPipe,
+  Query,
 } from '@nestjs/common';
 import { WarehouseService } from '@/warehouse/warehouse.service';
 import { CreateWarehouseDto } from '@/warehouse/dto/create-warehouse.dto';
 import { UpdateWarehouseDto } from '@/warehouse/dto/update-warehouse.dto';
+import { WarehouseQueryDto } from '@/warehouse/dto/warehouse-query.dto';
 
 @Controller('api/v1/warehouses')
 export class WarehouseController {
   constructor(private readonly warehouseService: WarehouseService) {}
 
   @Get()
-  findAll() {
-    return this.warehouseService.findAll();
+  findAll(@Query() request: WarehouseQueryDto) {
+    return this.warehouseService.findAll(request);
   }
 
   @Get(':id')

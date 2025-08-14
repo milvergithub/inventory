@@ -5,16 +5,22 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Partner } from './partner.entity';
 import { CreatePartnerDto } from './dto/create-partner.dto';
 import { UpdatePartnerDto } from './dto/update-partner.dto';
+import { PartnerQueryDto } from '@/partner/dto/partner-query.dto';
+import { BaseService } from '@/common/base.service';
 
 @Injectable()
-export class PartnerService {
+export class PartnerService extends BaseService<Partner> {
   constructor(
     @InjectRepository(Partner)
     private readonly partnerRepository: Repository<Partner>,
-  ) {}
+  ) {
+    super(partnerRepository);
+  }
 
-  async findAll(): Promise<Partner[]> {
-    return this.partnerRepository.find({ relations: ['user', 'warehouses'] });
+  async findAll(request: PartnerQueryDto) {
+    const where = {};
+
+    return this.findAllPaginated({ paginate: request, where });
   }
 
   async findOne(id: number): Promise<Partner> {

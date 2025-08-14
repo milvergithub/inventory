@@ -4,7 +4,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Category } from '@/categories/category.entity';
 import { CreateCategoryDto } from '@/categories/dto/create-category.dto';
 import { UpdateCategoryDto } from '@/categories/dto/update-category.dto';
-import { CategoryQueryDto } from '@/categories/dto/categoryRequestDto';
+import { CategoryQueryDto } from '@/categories/dto/category-query.dto';
 import { BaseService } from '@/common/base.service';
 
 @Injectable()
@@ -19,7 +19,7 @@ export class CategoryService extends BaseService<Category> {
   findAllWithSearch(request: CategoryQueryDto) {
     const where = request.search ? { name: ILike(`%${request.search}%`) } : {};
 
-    return this.findAllPaginated(request, where);
+    return this.findAllPaginated({ paginate: request, where });
   }
 
   async findOne(id: number): Promise<Category> {

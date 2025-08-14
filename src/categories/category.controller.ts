@@ -12,7 +12,7 @@ import {
 import { CategoryService } from '@/categories/category.service';
 import { CreateCategoryDto } from '@/categories/dto/create-category.dto';
 import { UpdateCategoryDto } from '@/categories/dto/update-category.dto';
-import { CategoryQueryDto } from '@/categories/dto/categoryRequestDto';
+import { CategoryQueryDto } from '@/categories/dto/category-query.dto';
 
 @Controller('/api/v1/categories')
 export class CategoryController {

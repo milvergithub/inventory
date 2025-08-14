@@ -6,19 +6,20 @@ import {
   Delete,
   Param,
   Body,
-  ParseIntPipe,
+  ParseIntPipe, Query,
 } from '@nestjs/common';
 import { PartnerService } from '@/partner/partner.service';
 import { CreatePartnerDto } from '@/partner/dto/create-partner.dto';
 import { UpdatePartnerDto } from '@/partner/dto/update-partner.dto';
+import { PartnerQueryDto } from '@/partner/dto/partner-query.dto';
 
 @Controller('api/v1/partners')
 export class PartnerController {
   constructor(private readonly partnerService: PartnerService) {}
 
   @Get()
-  findAll() {
-    return this.partnerService.findAll();
+  findAll(@Query() request: PartnerQueryDto) {
+    return this.partnerService.findAll(request);
   }
 
   @Get(':id')

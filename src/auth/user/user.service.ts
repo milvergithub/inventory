@@ -1,20 +1,32 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { ILike, Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import { User } from '@/auth/user/user.entity';
 import { CreateUserDto } from '@/auth/user/dto/create-user.dto';
 import { UpdateUserDto } from '@/auth/user/dto/update-user.dto';
+import { UserQueryDto } from '@/auth/user/dto/user-query.dto';
+import { BaseService } from '@/common/base.service';
 
 @Injectable()
-export class UserService {
+export class UserService extends BaseService<User> {
   constructor(
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
-  ) {}
+  ) {
+    super(userRepository);
+  }
 
-  async findAll(): Promise<User[]> {
-    return this.userRepository.find();
+  async findAll(request: UserQueryDto) {
+    const where = {};
+    if (request.username) {
+      where['username'] = ILike(`%${request.username}%`);
+    }
+    if (request.email) {
+      where['email'] = ILike(`%${request.email}%`);
+    }
+
+    return this.findAllPaginated({ paginate: request, where });
   }
 
   async findOne(id: number): Promise<User> {

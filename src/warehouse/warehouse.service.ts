@@ -1,19 +1,32 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { Repository } from 'typeorm';
+import { ILike, Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Warehouse } from '@/warehouse/warehouse.entity';
 import { CreateWarehouseDto } from '@/warehouse/dto/create-warehouse.dto';
 import { UpdateWarehouseDto } from '@/warehouse/dto/update-warehouse.dto';
+import { WarehouseQueryDto } from '@/warehouse/dto/warehouse-query.dto';
+import { BaseService } from '@/common/base.service';
 
 @Injectable()
-export class WarehouseService {
+export class WarehouseService extends BaseService<Warehouse> {
   constructor(
     @InjectRepository(Warehouse)
     private readonly warehouseRepository: Repository<Warehouse>,
-  ) {}
+  ) {
+    super(warehouseRepository);
+  }
 
-  async findAll(): Promise<Warehouse[]> {
-    return this.warehouseRepository.find({ relations: ['partner'] });
+  async findAll(request: WarehouseQueryDto) {
+    const where = {};
+    if (request.name) {
+      where['name'] = ILike(`%${request.name}%`);
+    }
+
+    return this.findAllPaginated({
+      paginate: request,
+      where,
+      relations: ['partner'],
+    });
   }
 
   async findOne(id: number): Promise<Warehouse> {

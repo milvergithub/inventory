@@ -13,7 +13,7 @@ import {
 import { ProductService } from '@/products/product.service';
 import { CreateProductDto } from '@/products/dto/create-product.dto';
 import { UpdateProductDto } from '@/products/dto/update-product.dto';
-import { ProductQueryDto } from '@/products/dto/productQueryDto';
+import { ProductQueryDto } from '@/products/dto/product-query.dto';
 
 @Controller('/api/v1/products')
 export class ProductController {

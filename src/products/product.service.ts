@@ -4,7 +4,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Product } from '@/products/product.entity';
 import { CreateProductDto } from '@/products/dto/create-product.dto';
 import { UpdateProductDto } from '@/products/dto/update-product.dto';
-import { ProductQueryDto } from '@/products/dto/productQueryDto';
+import { ProductQueryDto } from '@/products/dto/product-query.dto';
 import { BaseService } from '@/common/base.service';
 
 @Injectable()
@@ -32,7 +32,11 @@ export class ProductService extends BaseService<Product> {
       where['categoryId'] = request.categoryId;
     }
 
-    return this.findAllPaginated(request, where);
+    return this.findAllPaginated({
+      paginate: request,
+      where,
+      relations: ['category'],
+    });
   }
 
   async findOne(id: number): Promise<Product> {
